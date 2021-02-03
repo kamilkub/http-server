@@ -3,22 +3,24 @@ package org.http.request;
 public class HttpRequest {
 
     private HttpMethod httpMethod;
-    private String HOST;
-    private String USER_AGENT;
-    private String ACCEPT;
-    private String ACCEPT_LANGUAGE;
-    private String ACCEPT_ENCODING;
-    private String CONNECTION;
+    private String requestPath;
+    private String host;
+    private String userAgent;
+    private String accept;
+    private String acceptLanguage;
+    private String acceptEncoding;
+    private String connection;
 
 
     public static class Builder {
         private HttpMethod bHttpMethod;
-        private String bHOST;
-        private String bUSER_AGENT;
-        private String bACCEPT;
-        private String bACCEPT_LANGUAGE;
-        private String bACCEPT_ENCODING;
-        private String bCONNECTION;
+        private String bRequestPath;
+        private String bHost;
+        private String bUserAgent;
+        private String bAccept;
+        private String bAcceptLanguage;
+        private String bAcceptEncoding;
+        private String bConnection;
 
         public Builder httpMethod(HttpMethod httpMethod){
             this.bHttpMethod = httpMethod;
@@ -26,50 +28,87 @@ public class HttpRequest {
         }
 
         public Builder host(String host){
-            this.bHOST = host;
+            this.bHost = host;
             return this;
         }
 
+        public Builder requestPath(String requestPath){
+            this.bRequestPath = requestPath;
+            return this;
+        }
+
+
+
         public Builder userAgent(String userAgent){
-            this.bUSER_AGENT = userAgent;
+            this.bUserAgent = userAgent;
             return this;
         }
 
         public Builder acceptContent(String acceptContent){
-            this.bACCEPT = acceptContent;
+            this.bAccept = acceptContent;
             return this;
         }
 
         public Builder acceptLanguage(String acceptLanguage){
-            this.bACCEPT_LANGUAGE = acceptLanguage;
+            this.bAcceptLanguage = acceptLanguage;
             return this;
         }
 
         public Builder acceptEncoding(String acceptEncoding){
-            this.bACCEPT_ENCODING = acceptEncoding;
+            this.bAcceptEncoding = acceptEncoding;
             return this;
         }
 
         public Builder connection(String connection){
-            this.bCONNECTION = connection;
+            this.bConnection = connection;
             return this;
         }
 
         public HttpRequest build(){
             HttpRequest httpRequest = new HttpRequest();
-            httpRequest.ACCEPT = this.bACCEPT;
+            httpRequest.accept = this.bAccept;
+            httpRequest.userAgent = this.bUserAgent;
             httpRequest.httpMethod = this.bHttpMethod;
-            httpRequest.ACCEPT_ENCODING = this.bACCEPT_ENCODING;
-            httpRequest.ACCEPT_LANGUAGE = this.bACCEPT_LANGUAGE;
-            httpRequest.CONNECTION = this.bCONNECTION;
-            httpRequest.HOST = this.bHOST;
-            httpRequest.CONNECTION = this.bCONNECTION;
+            httpRequest.acceptEncoding = this.bAcceptEncoding;
+            httpRequest.acceptLanguage = this.bAcceptLanguage;
+            httpRequest.connection = this.bConnection;
+            httpRequest.host = this.bHost;
+            httpRequest.requestPath = this.bRequestPath;
 
             return httpRequest;
         }
 
-
     }
 
+    public HttpMethod getHttpMethod() {
+        return httpMethod;
+    }
 
+    public String getRequestPath() {
+        return requestPath;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public String getAccept() {
+        return accept;
+    }
+
+    public String getAcceptLanguage() {
+        return acceptLanguage;
+    }
+
+    public String getAcceptEncoding() {
+        return acceptEncoding;
+    }
+
+    public String getConnection() {
+        return connection;
+    }
 }

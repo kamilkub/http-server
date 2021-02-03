@@ -14,27 +14,26 @@ public class RequestHandler {
     private RequestHandler() { }
 
 
-    public synchronized void createHttpRequestObject() throws IOException {
+    public void createHttpRequestObject() throws IOException {
         System.out.println("Creating Request...");
-        synchronized (clientInputStream){
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(this.clientInputStream));
             String line;
             while ((line = reader.readLine()) != null){
-                requestPlainText.append(line);
+                requestPlainText.append(line + System.lineSeparator());
             }
+            System.out.println(requestPlainText);
 
-
-        }
     }
 
     public StringBuilder getRequestPlainText() {
         return requestPlainText;
     }
 
-    public synchronized void setClientInputStream(InputStream inputStream){
+    public void setClientInputStream(InputStream inputStream){
         this.clientInputStream = inputStream;
     }
-    public synchronized void setClientOutputStream(OutputStream outputStream){
+    public void setClientOutputStream(OutputStream outputStream){
         this.clientOutputStream = outputStream;
     }
 

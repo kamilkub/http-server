@@ -5,6 +5,7 @@ import java.net.Socket;
 
 public class HttpServer implements Runnable {
 
+
     protected int port = 8080;
     protected boolean isStopped = false;
     protected ServerSocket serverSocket = null;
@@ -33,7 +34,6 @@ public class HttpServer implements Runnable {
 
             try{
                 clientSocket = serverSocket.accept();
-
 
             }catch (Exception e){
                 if(isStopped()){
