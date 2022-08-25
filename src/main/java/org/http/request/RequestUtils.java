@@ -1,28 +1,34 @@
 package org.http.request;
 
-import org.http.exception.UnSupportedRequestMethodException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class RequestUtils {
 
-    private RequestUtils() {}
+    private static final Logger logger = LoggerFactory.getLogger(RequestUtils.class);
 
-    public static HttpMethod getRequestMethod(String request) throws UnSupportedRequestMethodException {
-        HttpMethod httpMethod = null;
-        String httpRequestText = request.split("\\s")[0];
-        try{
-            httpMethod = Enum.valueOf(HttpMethod.class, httpRequestText);
-        } catch (Exception e){
-            throw new UnSupportedRequestMethodException(httpRequestText);
-        }
+    public static HttpRequest build(InputStream inputStream) throws IOException {
+        String [] plainPacket = readPacket(inputStream);
 
-        return httpMethod;
+        return new HttpRequest.Builder()
+                .requestPath(retrieveRequestPath(plainPacket))
+                .build();
     }
 
+    private static String retrieveContentType(String [] plainPacket) {
+        return null;
+    }
 
-    // TODO: Method responsible for taking 'path' from HTTP request
+    private static String retrieveRequestPath(String [] plainPacket) {
+        return null;
+    }
 
-    public static String getRequestPath(String request){
-        return "";
+    private static String[] readPacket(InputStream inputStream) throws IOException {
+        return new String(inputStream.readAllBytes()).split("\n");
     }
 
 }
