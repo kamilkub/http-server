@@ -11,7 +11,6 @@ public class HttpRequest {
     private String acceptEncoding;
     private String connection;
 
-
     public static class Builder {
         private HttpMethod bHttpMethod;
         private String bRequestPath;
@@ -36,8 +35,6 @@ public class HttpRequest {
             this.bRequestPath = requestPath;
             return this;
         }
-
-
 
         public Builder userAgent(String userAgent){
             this.bUserAgent = userAgent;

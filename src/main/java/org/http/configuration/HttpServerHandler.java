@@ -9,8 +9,8 @@ import java.net.Socket;
 
 public class HttpServerHandler implements Runnable {
 
+    private static final Logger logger = LoggerFactory.getLogger(HttpServerHandler.class);
     private final Socket clientSocket;
-    private final Logger logger = LoggerFactory.getLogger(HttpServerHandler.class);
 
     public HttpServerHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -20,8 +20,11 @@ public class HttpServerHandler implements Runnable {
     public void run() {
 
         try {
+            /*
+                TODO:
+                    1. Pass I/O to class which checks requests' validity
+             */
             clientSocket.getInputStream();
-
         } catch (IOException e) {
             logger.error("Error while serving response.", e.getCause());
         }

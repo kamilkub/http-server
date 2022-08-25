@@ -19,10 +19,12 @@ public class RequestUtils {
                 .build();
     }
 
+    // TODO: Method should get content type of request
     private static String retrieveContentType(String [] plainPacket) {
         return null;
     }
 
+    // TODO: Method should get resource path of request
     private static String retrieveRequestPath(String [] plainPacket) {
         return null;
     }

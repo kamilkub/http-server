@@ -13,10 +13,10 @@ public class HttpServer implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
     private static final int PORT = 8080;
+    private final ExecutorService executorService = Executors.newScheduledThreadPool(20);
+    private ServerSocket serverSocket = null;
     private int customPort = 0;
     private boolean isStopped = false;
-    private ServerSocket serverSocket = null;
-    private final ExecutorService executorService = Executors.newScheduledThreadPool(20);
 
     public HttpServer(int port) {
         this.customPort = port;
@@ -29,7 +29,6 @@ public class HttpServer implements Runnable {
     public static void runServer() {
         runServer(PORT);
     }
-
 
     @Override
     public void run() {
