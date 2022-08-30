@@ -22,22 +22,4 @@ class RequestUtilsTest {
             "Sec-Fetch-Dest: document\n" +
             "Accept-Encoding: gzip, deflate, br\n" +
             "Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7";
-
-
-    @Test
-    @DisplayName(value = "Testing getRequestMethod() from RequestUtils.class")
-    void testGetRequestMethod() throws UnSupportedRequestMethodException {
-        // when
-        HttpMethod requestMethod = RequestUtils.getRequestMethod(SAMPLE_REQUEST);
-
-        // then
-        assertEquals(HttpMethod.POST, requestMethod);
-        assertThrows(UnSupportedRequestMethodException.class, () -> RequestUtils.getRequestMethod("INFO"));
-
-    }
-
-    @Test
-    @DisplayName(value = "Testing getRequestPath() from RequestUtils.class")
-    void testGetRequestPath() { }
-
 }
