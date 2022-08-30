@@ -4,33 +4,40 @@ package org.http.request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 
 public class RequestUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(RequestUtils.class);
 
-    public static HttpRequest build(InputStream inputStream) throws IOException {
-        String [] plainPacket = readPacket(inputStream);
-
+    public static HttpRequest build(List<String> packetLInes) {
         return new HttpRequest.Builder()
-                .requestPath(retrieveRequestPath(plainPacket))
                 .build();
     }
 
-    // TODO: Method should get content type of request
-    private static String retrieveContentType(String [] plainPacket) {
-        return null;
+    private static String retrieveContentType(List<String> packetLines) {
+        return packetLines
+                .stream()
+                .filter(packetLine -> packetLine.startsWith(HttpStandardHeaders.CONTENT_TYPE.val()))
+                .findFirst()
+                .orElse("");
     }
 
-    // TODO: Method should get resource path of request
-    private static String retrieveRequestPath(String [] plainPacket) {
-        return null;
+    /**
+     *  Because every HTTP Request starts with method type and path, we have to look at the first line
+     */
+    private static String retrieveRequestPath(List<String> packetLines) {
+        String firstPacketLine = packetLines.get(0);
+        String [] separatedLine = firstPacketLine.split("\\s");
+
+        return separatedLine[1].replaceAll("\\s", "");
     }
 
-    private static String[] readPacket(InputStream inputStream) throws IOException {
-        return new String(inputStream.readAllBytes()).split("\n");
+    private static String getRequestPath(List<String> packetLines) {
+        String firstPacketLine = packetLines.get(0);
+        String [] separatedLine = firstPacketLine.split("\\s");
+
+        return separatedLine[1].replaceAll("\\s", "");
     }
 
 }
