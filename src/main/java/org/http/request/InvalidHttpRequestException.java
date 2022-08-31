@@ -1,2 +1,3 @@
-package org.http.request;public class Exception {
-}
+package org.http.request;
+
+public class InvalidHttpRequestException extends Exception { }
