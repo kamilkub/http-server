@@ -1,111 +1,105 @@
 package org.http.request;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class HttpRequest {
 
+    private Map<String, String> collectedHeaders;
+
+    private static final int HEADER_NAME_VALUE_LENGTH = 2;
+
     private HttpMethod httpMethod;
+
     private String requestPath;
-    private String host;
-    private String userAgent;
-    private String accept;
-    private String acceptLanguage;
-    private String acceptEncoding;
-    private String connection;
 
-    public static class Builder {
-        private HttpMethod bHttpMethod;
-        private String bRequestPath;
-        private String bHost;
-        private String bUserAgent;
-        private String bAccept;
-        private String bAcceptLanguage;
-        private String bAcceptEncoding;
-        private String bConnection;
 
-        public Builder httpMethod(HttpMethod httpMethod){
-            this.bHttpMethod = httpMethod;
-            return this;
+    private HttpRequest() {}
+
+    public HttpRequest(List<String> packetLines) throws InvalidHttpRequestException {
+
+        if (packetLines.isEmpty()) {
+            throw new InvalidHttpRequestException();
         }
 
-        public Builder host(String host){
-            this.bHost = host;
-            return this;
-        }
+        HttpMethod httpMethod = collectHttpMethod(packetLines);
 
-        public Builder requestPath(String requestPath){
-            this.bRequestPath = requestPath;
-            return this;
-        }
+        assert httpMethod != null;
 
-        public Builder userAgent(String userAgent){
-            this.bUserAgent = userAgent;
-            return this;
-        }
+        this.collectedHeaders = collectHeaders(packetLines);
+        this.httpMethod = httpMethod;
+    }
 
-        public Builder acceptContent(String acceptContent){
-            this.bAccept = acceptContent;
-            return this;
-        }
-
-        public Builder acceptLanguage(String acceptLanguage){
-            this.bAcceptLanguage = acceptLanguage;
-            return this;
-        }
-
-        public Builder acceptEncoding(String acceptEncoding){
-            this.bAcceptEncoding = acceptEncoding;
-            return this;
-        }
-
-        public Builder connection(String connection){
-            this.bConnection = connection;
-            return this;
-        }
-
-        public HttpRequest build(){
-            HttpRequest httpRequest = new HttpRequest();
-            httpRequest.accept = this.bAccept;
-            httpRequest.userAgent = this.bUserAgent;
-            httpRequest.httpMethod = this.bHttpMethod;
-            httpRequest.acceptEncoding = this.bAcceptEncoding;
-            httpRequest.acceptLanguage = this.bAcceptLanguage;
-            httpRequest.connection = this.bConnection;
-            httpRequest.host = this.bHost;
-            httpRequest.requestPath = this.bRequestPath;
-
-            return httpRequest;
-        }
-
+    public int headersCount() {
+        return collectedHeaders.size();
     }
 
     public HttpMethod getHttpMethod() {
         return httpMethod;
     }
 
+    public void setHttpMethod(HttpMethod httpMethod) {
+        this.httpMethod = httpMethod;
+    }
+
     public String getRequestPath() {
         return requestPath;
     }
 
-    public String getHost() {
-        return host;
+    public void setRequestPath(String requestPath) {
+        this.requestPath = requestPath;
     }
 
-    public String getUserAgent() {
-        return userAgent;
+    private Map<String, String> collectHeaders(List<String> requestLines) throws InvalidHttpRequestException {
+
+        List<String[]> headers = collectHeaderPretenders(requestLines);
+        List<String[]> validHeaders = collectValidHeaders(headers);
+
+
+        if (validHeaders.isEmpty()) {
+            throw new InvalidHttpRequestException();
+        }
+
+        Map<String, String> headersHolder = new HashMap<>();
+
+        validHeaders.forEach(headersKV -> {
+            String hName = headersKV[0];
+            String hValue = headersKV[1];
+            headersHolder.put(hName, hValue);
+        });
+
+        return headersHolder;
     }
 
-    public String getAccept() {
-        return accept;
+    private List<String[]> collectHeaderPretenders(List<String> requestLines) {
+        return requestLines.stream()
+                .filter(requestLine -> requestLine.contains(":"))
+                .map(requestLine -> requestLine.split(":"))
+                .filter(splitHeader -> splitHeader.length == HEADER_NAME_VALUE_LENGTH)
+                .collect(Collectors.toUnmodifiableList());
     }
 
-    public String getAcceptLanguage() {
-        return acceptLanguage;
+    private List<String[]> collectValidHeaders(List<String[]> headersKeyValue) {
+        return headersKeyValue.stream()
+                .filter(splitHeader -> Arrays
+                        .stream(HttpStandardHeaders.values())
+                        .anyMatch(headerName -> headerName.val().equalsIgnoreCase(splitHeader[0])))
+                .collect(Collectors.toUnmodifiableList());
     }
 
-    public String getAcceptEncoding() {
-        return acceptEncoding;
+    private HttpMethod collectHttpMethod(List<String> requestLines) {
+        String httpRequestBegin = requestLines.get(0).toLowerCase();
+
+        return Arrays.stream(HttpMethod.values())
+                .filter(httpMethod -> httpRequestBegin.contains(httpMethod.getValue().toLowerCase()))
+                .findFirst()
+                .orElse(null);
     }
 
-    public String getConnection() {
-        return connection;
+    private String collectRequestPath() {
+        return "";
     }
 }
