@@ -1,22 +1,29 @@
 package org.http.configuration;
 
+import org.http.request.reader.HttpReader;
+import org.http.request.reader.HttpStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class HttpServer implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
+
     private static final int PORT = 8080;
-    private final ExecutorService executorService = Executors.newScheduledThreadPool(20);
+
     private ServerSocket serverSocket = null;
+
     private int customPort = 0;
-    private boolean isStopped = false;
+
+    private volatile static boolean isStopped = false;
+
+    private HttpReader reader = new HttpStreamReader();
+
+
 
     public HttpServer(int port) {
         this.customPort = port;
@@ -38,7 +45,6 @@ public class HttpServer implements Runnable {
 
             while (!isStopped()) {
                 Socket clientSocket = serverSocket.accept();
-                executorService.submit(new HttpServerHandler(clientSocket));
             }
 
         } catch (IOException e) {
@@ -47,11 +53,11 @@ public class HttpServer implements Runnable {
     }
 
     private synchronized boolean isStopped() {
-        return this.isStopped;
+        return isStopped;
     }
 
-    private synchronized void stop() {
-        this.isStopped = true;
+    private static synchronized void stop() {
+        isStopped = true;
     }
 
     private void openServerSocket(int port) {

@@ -1,5 +1,9 @@
 package org.http.request;
 
+import org.http.exception.InvalidHttpRequestException;
+import org.http.request.constants.HttpMethod;
+import org.http.request.constants.HttpStandardHeaders;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -84,8 +88,7 @@ public class HttpRequest {
 
     private List<String[]> collectValidHeaders(List<String[]> headersKeyValue) {
         return headersKeyValue.stream()
-                .filter(splitHeader -> Arrays
-                        .stream(HttpStandardHeaders.values())
+                .filter(splitHeader -> Arrays.stream(HttpStandardHeaders.values())
                         .anyMatch(headerName -> headerName.val().equalsIgnoreCase(splitHeader[0])))
                 .collect(Collectors.toUnmodifiableList());
     }

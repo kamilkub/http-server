@@ -1,4 +1,4 @@
-package org.http.request;
+package org.http.request.constants;
 
 public enum HttpStandardHeaders {
 

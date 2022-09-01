@@ -1,11 +1,16 @@
 package org.http.handler;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.http.request.HttpRequest;
+import org.http.response.HttpResponse;
+
 
 public class HttpDispatcher implements Dispatcher {
 
     @Override
-    public void accept(InputStream inputStream, OutputStream outputStream) {}
+    public void accept(HttpRequest request, HttpResponse response) {
+
+
+
+    }
 
 }

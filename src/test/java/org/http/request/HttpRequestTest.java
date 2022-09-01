@@ -4,6 +4,7 @@ package org.http.request;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.http.exception.InvalidHttpRequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
