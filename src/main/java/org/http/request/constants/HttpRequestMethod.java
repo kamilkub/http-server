@@ -1,6 +1,6 @@
 package org.http.request.constants;
 
-public enum HttpMethod {
+public enum HttpRequestMethod {
     POST("POST"),
     PUT("PUT"),
     GET("GET"),
@@ -10,7 +10,7 @@ public enum HttpMethod {
 
     private final String value;
 
-    HttpMethod(String value) {
+    HttpRequestMethod(String value) {
         this.value = value;
     }
 

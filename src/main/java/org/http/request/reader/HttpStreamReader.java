@@ -10,11 +10,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class HttpStreamReader implements HttpReader {
+public class HttpStreamReader {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpStreamReader.class);
 
-    @Override
     public List<String> read(InputStream inputStream) {
 
         try {

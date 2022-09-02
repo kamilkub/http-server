@@ -2,7 +2,7 @@ package org.http.controllers;
 
 import org.http.annotations.RequestMapping;
 import org.http.request.HttpRequest;
-import org.http.request.constants.HttpMethod;
+import org.http.request.constants.HttpRequestMethod;
 import org.http.response.HttpResponse;
 
 import java.lang.reflect.Method;
@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 public class ControllerConfiguration {
 
 
-    private static boolean hasCorrectAnnotationValues(Method method, HttpMethod httpMethod) {
+    private static boolean hasCorrectAnnotationValues(Method method, HttpRequestMethod httpMethod) {
         RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
 
         return requestMapping.method().equalsIgnoreCase(httpMethod.getValue());
