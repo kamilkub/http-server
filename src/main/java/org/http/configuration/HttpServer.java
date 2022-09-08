@@ -1,7 +1,5 @@
 package org.http.configuration;
 
-import org.http.request.reader.HttpReader;
-import org.http.request.reader.HttpStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,11 +19,8 @@ public class HttpServer implements Runnable {
 
     private volatile static boolean isStopped = false;
 
-    private HttpReader reader = new HttpStreamReader();
 
-
-
-    public HttpServer(int port) {
+    HttpServer(int port) {
         this.customPort = port;
     }
 
