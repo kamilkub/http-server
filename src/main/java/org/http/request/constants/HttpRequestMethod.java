@@ -5,7 +5,8 @@ public enum HttpRequestMethod {
     PUT("PUT"),
     GET("GET"),
     DELETE("DELETE"),
-    PATCH("PATCH");
+    PATCH("PATCH"),
+    NONE("");
 
 
     private final String value;
