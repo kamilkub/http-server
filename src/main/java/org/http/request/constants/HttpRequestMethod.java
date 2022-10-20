@@ -19,4 +19,15 @@ public enum HttpRequestMethod {
     public String getValue() {
         return value;
     }
+
+    public static HttpRequestMethod[] allowedHttpMethods() {
+        return new HttpRequestMethod[]{
+                HttpRequestMethod.POST,
+                HttpRequestMethod.PUT,
+                HttpRequestMethod.GET,
+                HttpRequestMethod.DELETE,
+                HttpRequestMethod.PATCH,
+                HttpRequestMethod.NONE
+        };
+    }
 }

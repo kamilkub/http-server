@@ -7,12 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExceptionsTest {
 
-
     @Test
     @DisplayName("UnSupportedRequestMethodException.class - TEST")
     void testThrowUnSupportedRequestException(){
         assertThrows(UnSupportedRequestMethodException.class, UnSupportedRequestMethodException::throwTestException);
     }
-
-
 }
