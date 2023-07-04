@@ -11,11 +11,7 @@ public class HttpHeadersReader implements HttpReader {
     public RequestPart read(List<String> requestLines) {
         Headers headers = new Headers();
 
-//        requestLines.stream()
-//                .filter(requestLine -> requestLine.contains(":"))
-//                .map(requestLine -> requestLine.split(":"))
-//                .filter(splitHeader -> splitHeader.length == HEADER_NAME_VALUE_LENGTH)
-//                .collect(Collectors.toUnmodifiableList());
+
 
         return headers;
     }

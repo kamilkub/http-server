@@ -1,5 +1,6 @@
 package org.http.configuration;
 
+import org.http.request.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,7 @@ public class HttpServer implements Runnable {
 
             while (!isStopped()) {
                 Socket clientSocket = serverSocket.accept();
+                HttpRequest httpRequest = new HttpRequest();
             }
 
         } catch (IOException e) {

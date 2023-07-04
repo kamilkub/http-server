@@ -6,6 +6,6 @@ public class DependencyScanner implements Scanner {
 
     @Override
     public void scan(Package [] packages) {
-
+        this.scan(new Package[]{});
     }
 }

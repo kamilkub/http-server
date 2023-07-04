@@ -11,10 +11,15 @@ public class HttpBodyReader implements HttpReader {
     public RequestPart read(List<String> requestLines) {
         Body body = new Body();
 
-        String [] headersBodySeparator =
-                requestLines.stream().collect(Collectors.joining()).split("\n");
+        StringBuilder plainBody = new StringBuilder();
 
-        body.setContent(headersBodySeparator.length > 0 ? headersBodySeparator[1] : "");
+        int startOfBody = requestLines.contains("\\s") ? requestLines.indexOf("\\s"): requestLines.indexOf("");
+
+        while(startOfBody < requestLines.size() - 1) {
+            plainBody.append(requestLines.get(startOfBody++));
+        }
+
+        body.setContent(plainBody.toString());
 
         return body;
     }
